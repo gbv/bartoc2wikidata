@@ -7,6 +7,7 @@ This document describes how the mapping is created to give an example for simila
 1. [Download BARTOC JSON dump](http://bartoc.org/de/node/770)
 2. Parse JSON dump (with data processing toolkit [Catmandu](https://github.com/LibreCat/Catmandu#readme))
 3. Look up Wikidata URIs (with Wikidata query client [wdq](https://github.com/nichtich/wdq#readme))
+4. Insert Wikidata URIs to BARTOC database (manually)
 
 A single Wikipedia URL can be mapped to Wikidata with `wdq` like this:
 
@@ -21,8 +22,7 @@ The script `bartoc2wikidata.pl` converts JSON dump `download.json` by calling `w
 
 The mapping resulted in a CSV file with 162 Wikidata URIs (`bartoc2wikidata.csv`). The number is lower than the full number of BARTOC records with Wikipedia URL because URLs link to an article section are not mapped. One additional Wikipedia article had no Wikidata item yet, so an new Wikidata item was created manually.
 
-A new metadata field "Wikidata" was created in BARTOC to include the Wikidata URIs:
-
-4. Insert Wikidata URIs manually
-
 To illustrate the benefit of having Wikidata URIs instead of Wikipedia URLs, the reverse mapping can be implemented in JavaScript. This way new Wikipedia links are shown automatically as soon as an article about the selected knowledge organization system is created in some other language.
+
+A sample BARTOC record with Wikidata ID is used as `example.html` for testing. The page includes JavaScript script `wikidatasitelinks.js` to get a Wikidata URI, query the corresponding Wikipedia links and inject the list as list into the HTML page.
+
