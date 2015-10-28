@@ -5,7 +5,7 @@
     "use strict";
 
     // get Wikidata URI
-    
+    // TODO use :contains('http://www.wikidata.org/entity/') instead?
     var item = $('.field-name-field-wikidata').children('.field-items').children().children().attr('href');
 
     // query
@@ -14,21 +14,21 @@
 
     // inject result into HTML page
     function inject_sitelinks(urls) {
-        // TODO
         if($.isArray(urls) && urls.length){
-            console.log(urls);
-            $('.field-name-field-wikidata').after('<div class="field field-name-field-wikipedia-urls field-type-taxonomy-term-reference field-label-inline clearfix"></div>');
-            $('.field-name-field-wikipedia-urls').append('<div class="field-label">Wikipedia:&nbsp;</div');
-            $('.field-name-field-wikipedia-urls').append('<div class="field-items"></div');
-            var s = '';
+            var fieldName = 'field-name-field-wikipedia-urls';
+            $('.field-name-field-wikidata').after('<div class="field '+fieldName+' field-type-taxonomy-term-reference field-label-inline clearfix"></div>');
+            $('.'+fieldName).append('<div class="field-label">Wikipedia:&nbsp;</div');
+            $('.'+fieldName).append('<div class="field-items"></div');
+            var parity = '';
             $.each(urls, function(i, url){
-                var short = url.substr(8,2);
+                var langShort = url.substr(8,2);
                 if(i%2 === 0){
-                    s = 'even';
+                    parity = 'even';
                 }else{
-                    s = 'odd';
+                    parity = 'odd';
                 }
-                $('.field-name-field-wikipedia-urls > .field-items').append('<div class="field-item '+s+'" rel="dc:relation"><a href="'+url+'" class="ext" target="_blank">'+short+'</a></div>');
+                $('.'+fieldName+' > .field-items').append('<div class="field-item '+parity+'" rel="dc:relation"><a href="'+url+'" class="ext" target="_blank">'+langShort+'</a></div>');
+                $('.'+fieldName+' > .field-items > .field-item > a').css({'color':'#3F5E70','border':'1px solid #3F5E70','background':'#FFF'});
             });
         }
     };
