@@ -14,7 +14,7 @@ importer('JSON', array => 1, multiline => 1, file => 'download.json')->each(sub 
         warn "could not find bartoc ID:".$r->{Title}."\n";
         next;
     }
-    my $bartoc = "http://www.bartoc.org/en/node/$1";
+    my $bartoc = "http://bartoc.org/en/node/$1";
 
     next unless ($r->{Wikipedia} // '') =~ qr{^<a href="([^"]+)};
     my $wikipedia = $1;

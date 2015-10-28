@@ -5,7 +5,8 @@
     "use strict";
 
     // get Wikidata URI
-    var item = 'http://www.wikidata.org/entity/Q48460'; // TODO: dynamic
+    
+    var item = $('.field-name-field-wikidata').children('.field-items').children().children().attr('href');
 
     // query
     var api = "https://query.wikidata.org/bigdata/namespace/wdq/sparql";
@@ -14,7 +15,22 @@
     // inject result into HTML page
     function inject_sitelinks(urls) {
         // TODO
-        console.log(urls);
+        if($.isArray(urls) && urls.length){
+            console.log(urls);
+            $('.field-name-field-wikidata').after('<div class="field field-name-field-wikipedia-urls field-type-taxonomy-term-reference field-label-inline clearfix"></div>');
+            $('.field-name-field-wikipedia-urls').append('<div class="field-label">Wikipedia:&nbsp;</div');
+            $('.field-name-field-wikipedia-urls').append('<div class="field-items"></div');
+            var s = '';
+            $.each(urls, function(i, url){
+                var short = url.substr(8,2);
+                if(i%2 === 0){
+                    s = 'even';
+                }else{
+                    s = 'odd';
+                }
+                $('.field-name-field-wikipedia-urls > .field-items').append('<div class="field-item '+s+'" rel="dc:relation"><a href="'+url+'" class="ext" target="_blank">'+short+'</a></div>');
+            });
+        }
     };
 
     $.ajax({
