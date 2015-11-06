@@ -26,3 +26,7 @@ To illustrate the benefit of having Wikidata URIs instead of Wikipedia URLs, the
 
 A sample BARTOC record with Wikidata ID is used as `example.html` for testing. The page includes JavaScript script `wikidatasitelinks.js` to get a Wikidata URI, query the corresponding Wikipedia links and inject the list as list into the HTML page.
 
+## See also
+
+This work is part of [project coli-conc](https://coli-conc.gbv.de/).
+
