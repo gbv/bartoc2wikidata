@@ -5,7 +5,7 @@
     "use strict";
 
     // get Wikidata URI
-    var item = $('.field-name-field-wikidata a[href^="http://www.wikidata.org/entity/"]').attr('href');
+    var item = $('.field-name-field-wikidata a').attr('href');
 
     // inject list of sitelinks into HTML page
     function inject_sitelinks(links) {
@@ -13,7 +13,7 @@
 
         var fieldName = 'field-name-field-wikipedia-urls';
         $('.field-name-field-wikidata').after('<div class="field '+fieldName+' field-type-taxonomy-term-reference field-label-inline clearfix"></div>');
-        $('.'+fieldName).append('<div class="field-label">Wikipedia: </div');
+        $('.'+fieldName).append('<div class="field-label">Wikipedia:&nbsp;</div');
         $('.'+fieldName).append('<div class="field-items"></div');
 
         $.each(links, function(i, link){
@@ -26,25 +26,25 @@
     };
 
     // perform query
-    var api = "https://query.wikidata.org/bigdata/namespace/wdq/sparql";
-    var sparql = "PREFIX schema: <http://schema.org/>\n"
-               + "SELECT * { ?url schema:about <"+item+">; schema:inLanguage ?lang }";
+    if (item) {
+        item = item.replace(/^https/,'http');
 
-    $.ajax({
-        url: api,
-        data: { format: 'json', query: sparql },
-        success: function(data) { 
-            inject_sitelinks(
-                $.map(data.results.bindings, function(row) {
-                    return { url: row.url.value, lang: row.lang.value }
-                })
-            );
-        },
-    });
+        var api = "https://query.wikidata.org/bigdata/namespace/wdq/sparql";
+        var sparql = "PREFIX schema: <http://schema.org/>\n"
+                   + "SELECT * { ?url schema:about <" 
+                   + item
+                   + ">; schema:inLanguage ?lang }";
 
-    // TODO (MAYBE): nicer links
-    // - get names of projects via
-    //   https://www.wikidata.org/w/api.php?action=sitematrix
-    // - get names of languages (how?)
-
+        $.ajax({
+            url: api,
+            data: { format: 'json', query: sparql },
+            success: function(data) { 
+                inject_sitelinks(
+                    $.map(data.results.bindings, function(row) {
+                        return { url: row.url.value, lang: row.lang.value }
+                    })
+                );
+            },
+        });
+    }
 })(jQuery);
