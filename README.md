@@ -26,6 +26,15 @@ To illustrate the benefit of having Wikidata URIs instead of Wikipedia URLs, the
 
 A sample BARTOC record with Wikidata ID is used as `example.html` for testing. The page includes JavaScript script `wikidatasitelinks.js` to get a Wikidata URI, query the corresponding Wikipedia links and inject the list as list into the HTML page.
 
+## Postprocessing
+
+The script `mappingproperties.pl` uses Wikidata URIs in `bartoc2wikidata.csv`
+to look up whether corresponding Wikidata mapping properties exist. For
+instance there is a mapping property for *Dewey Decimal Classification*
+(<http://www.wikidata.org/entity/Q48460>):
+<http://www.wikidata.org/entity/P1036> used to map around 4.000 Wikidata items
+to DDC numbers. A preliminary result is stored in `mappingproperties.csv`.
+
 ## See also
 
 This work is part of [project coli-conc](https://coli-conc.gbv.de/).
