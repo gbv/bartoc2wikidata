@@ -35,6 +35,51 @@ instance there is a mapping property for *Dewey Decimal Classification*
 <http://www.wikidata.org/entity/P1036> used to map around 4.000 Wikidata items
 to DDC numbers. A preliminary result is stored in `mappingproperties.csv`.
 
+## Reverse Links from Wikidata (*update*)
+
+After introduction of a new Wikidata property [BARTOC-ID (P2689)](http://www.wikidata.org/entity/P2689), reverse links from Wikidata to BARTOC could be added. The Catmandu fix file `b2w-quick.fix` was used to convert `bartoc2wikidata.csv` to the format for bulk editing Wikidata with [QuickStatements](http://tools.wmflabs.org/wikidata-todo/quick_statements.php).
+
+Later updated should harvest BARTOC and Wikidata and compare the links. Unfortunately current BARTOC export or RDF does not contain Wikidata links yet. A list of Wikidata items with their BARTOC-IDs can be queried via SPARQL. SPARQL can also be used for additional qualitiy checks.
+
+## Sample Wikidata queries with BARTOC-ID
+
+Get a list of Wikidata-Items with their BARTOC-ID and optional mapping property
+([run query](http://tinyurl.com/hyfm4t5)):
+
+~~~sparql
+PREFIX bd: <http://www.bigdata.com/rdf#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+SELECT ?kos ?name (IRI(CONCAT("http://bartoc.org/en/node/",?bartocID)) AS ?bartoc) ?property WHERE {
+    ?kos wdt:P2689 ?bartocID .
+    OPTIONAL { ?kos wdt:P1687 ?property }
+    SERVICE wikibase:label {
+        bd:serviceParam wikibase:language "en,de,fr,da,fi" .
+        ?kos rdfs:label ?name .
+    }
+}
+~~~
+
+Get only those items that are instances of Knowledge Organization System ([Q6423319](http://www.wikidata.org/entity/Q6423319)) or [its subclasses](https://angryloki.github.io/wikidata-graph-builder/?property=P279&item=Q6423319&mode=reverse) ([run query](http://tinyurl.com/hlwftml)):
+
+~~~sparql
+PREFIX bd: <http://www.bigdata.com/rdf#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+SELECT * WHERE {
+    ?kos wdt:P31/wdt:P279* wd:Q6423319 .
+    ?kos wdt:P2689 ?bartocID .
+    SERVICE wikibase:label {
+        bd:serviceParam wikibase:language "en,de,fr,da,fi" .
+        ?kos rdfs:label ?name .
+    }
+}
+~~~
+
+The difference between the first and the second result consists of Wikidata-Items that are not tagged as knowledge organization systems yet or wrongly connected to BARTOC.
+
 ## See also
 
 This work is part of [project coli-conc](https://coli-conc.gbv.de/).

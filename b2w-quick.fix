@@ -1,0 +1,13 @@
+# convert bartoc2wikidata.csv for QuickStatements:
+#
+# $ catmandu convert CSV --fix b2w-quick.fix to TSV --fields wikidata,p,bartoc < bartoc2wikidata.csv 
+# 
+
+substring(wikidata,31)  # Wikidata-ID (Q..)
+add_field(p,P2689)      # BARTOC-ID property
+substring(bartoc,26)    # BARTIC-ID
+prepend(bartoc,'"')
+append(bartoc,'"')
+
+remove_field(wikipedia)
+
