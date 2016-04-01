@@ -39,7 +39,10 @@ to DDC numbers. A preliminary result is stored in `mappingproperties.csv`.
 
 After introduction of a new Wikidata property [BARTOC-ID (P2689)](http://www.wikidata.org/entity/P2689), reverse links from Wikidata to BARTOC could be added. The Catmandu fix file `b2w-quick.fix` was used to convert `bartoc2wikidata.csv` to the format for bulk editing Wikidata with [QuickStatements](http://tools.wmflabs.org/wikidata-todo/quick_statements.php).
 
-Later updated should harvest BARTOC and Wikidata and compare the links. Unfortunately current BARTOC export or RDF does not contain Wikidata links yet. A list of Wikidata items with their BARTOC-IDs can be queried via SPARQL. SPARQL can also be used for additional qualitiy checks.
+Later updated should harvest BARTOC and Wikidata and compare the links. A list of Wikidata items with their BARTOC-IDs can be queried via SPARQL. SPARQL can also be used for additional qualitiy checks.
+
+Links from BARTOC to Wikidata are included in `bartoc2wikidata.csv`. Links from Wikidata to BARTOC are created with `wikidata2bartoc.pl` and stored in `wikidata2bartoc.csv`. 
+
 
 ## Sample Wikidata queries with BARTOC-ID
 
